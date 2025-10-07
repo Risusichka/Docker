@@ -5,8 +5,10 @@ COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
 RUN npm ci || npm install
 COPY . .
 RUN npx prisma generate || true
+# Build TypeScript ahead of time to avoid ts-node-dev in production
+RUN npm run build
 EXPOSE 3000
-CMD ["npm","run","dev"]
+CMD ["npm","start"]
 
 
 
